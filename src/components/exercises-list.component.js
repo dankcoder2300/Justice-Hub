@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
+import { AiOutlineEye } from "react-icons/ai";
 
 const Exercise = (props) => (
   <tr>
@@ -21,8 +22,10 @@ const Exercise = (props) => (
     {/* <td>{props.exercise.status}</td> */}
     {/* <td>{props.exercise.summary}</td> */}
     {/* <td>{props.exercise.date.substring(0,10)}</td> */}
-    <td id="update">
-      <Link to={"/update/" + props.exercise._id}>update</Link>
+    <td id="view">
+      <Link to={"/viewcase/" + props.exercise._id}>
+        <AiOutlineEye color="#000" />
+      </Link>
     </td>
   </tr>
 );
@@ -85,7 +88,7 @@ export default class ExercisesList extends Component {
                 <th>End date</th>
                 {/* <th>Status</th> */}
                 {/* <th>Summary</th> */}
-                <th>Update</th>
+                <th>View</th>
               </tr>
             </thead>
             <tbody>{this.exerciseList()}</tbody>

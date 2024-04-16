@@ -9,6 +9,7 @@ import CreateCase from "./components/createCase";
 import PastCase from "./components/pastcaselist";
 import PendingCase from "./components/pendingcase";
 import UpcomingCase from "./components/upcomingcaselist";
+import ViewCase from "./pages/viewcase/ViewCase";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       >
         <Navbar />
         <Route path="/" exact component={Login} />
+        <Route path="/viewcase/:id" exact component={ViewCase} />
         <Route path="/caseList" exact component={ExercisesList} />
         <Route path="/update/:id" component={UpdateCase} />
         <Route path="/create" component={CreateCase} />
