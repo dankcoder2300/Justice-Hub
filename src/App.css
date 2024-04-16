@@ -1,13 +1,27 @@
+:root{
+	--btn-hover-color: #fff;
+	--btn-hover-bg: #007bff;
+}
+
+
 body{
   margin: auto;
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
-.navbar-container{
+.body-container{
   width: 100%;
-  margin: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 #update>a{
   color: rgb(207, 27, 27);
+}
+
+.btn:hover{
+	opacity: 0.8;
+	color: var(--btn-hover-color);
+	background-color: var(--btn-hover-bg);
 }
 
 @import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
@@ -21,26 +35,32 @@ body{
 
 .login-container{
 	background: linear-gradient(90deg, #C7C5F4, #776BCC);	
+	flex: 1;
 }
 .container {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	min-height: 100vh;
+	padding: 2em 4em;
+	flex: 1;
+	/* height: 100%; */
 }
 
 .screen {		
 	background: linear-gradient(90deg, #5D54A4, #7C78B8);		
 	position: relative;	
-	height: 600px;
+	height: 500px;
 	width: 360px;	
 	box-shadow: 0px 0px 24px #5C5696;
+	overflow: hidden;
 }
 
 .screen__content {
 	z-index: 1;
 	position: relative;	
 	height: 100%;
+	top: 0;
+	padding: 3em 0.5em;
 }
 
 .screen__background {		
@@ -95,8 +115,8 @@ body{
 	border-radius: 60px;
 }
 .heading{
-  margin-top: 100px;
-  font-family: 'Courier New', Courier, monospace;
+  /* margin-top: 2em; */
+  /* font-family: 'Courier New', Courier, monospace; */
   font-weight: bold;
   color: #4C489D;
   margin-bottom: 0;
@@ -188,7 +208,7 @@ body{
   
 }
 .form-control{
-	/* width: 30%; */
+	width: 15em;
 }
 .update_form{
 	display: flex;

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import { BACKEND_URL } from "../data";
 
 class Login extends Component {
   constructor(props) {
@@ -44,58 +45,41 @@ class Login extends Component {
   }
   onSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const user = {
+        username: this.state.username,
+        password: this.state.password,
+        type: this.state.type,
+      };
 
-    const user = {
-      username: this.state.username,
-      password: this.state.password,
-      type: this.state.type,
-    };
-    // console.log(user);
-    // fetch('http://localhost:5000/users/login', user)
-    await fetch("http://localhost:5000/users/login", {
-      method: "POST",
-      body: JSON.stringify(user),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        if (data.success) {
-          window.location = "/caseList";
+      const resp = await axios.post(`${BACKEND_URL}/users/login`, user, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(resp)
+      window.location = "/caseList";
+      alert("Login successful");
 
-          alert("Login successful");
+      localStorage.setItem("type", user.type);
+      localStorage.setItem("username", "exists");
+      // localStorage.setItem("Type" , )
 
-          console.log(data);
+      this.setState({
+        username: "",
+        password: "",
+        type: "",
+      });
 
-          // if(user.type === 'registrar'){
-
-          // }
-          // else{
-
-          // }
-          localStorage.setItem("type", user.type);
-          localStorage.setItem("username", "exists");
-          // localStorage.setItem("Type" , )
-        } else {
-          alert("Invalid credentials");
-        }
-      })
-      .catch((err) => console.log(err));
-
-    this.setState({
-      username: "",
-      password: "",
-      type: "",
-    });
-
-    console.log(localStorage.getItem("registrar"));
+      console.log(localStorage.getItem("registrar"));
+    } catch (err) {
+      console.log(err);
+      alert("Something went wrong ! check console");
+    }
   };
   render() {
     return (
-      <div className="login-container" style={{ height: "150vh" }}>
+      <div className="login-container">
         <div className="container">
           <div className="screen">
             <div className="screen__content">
@@ -104,12 +88,13 @@ class Login extends Component {
                 <div className="login__field">
                   <select
                     class="form-select"
+                    id="role-select"
                     aria-label="Default select example"
                     onChange={this.onChangeType}
                     value={this.state.type}
                     required
                   >
-                    <option selected>Open this select menu</option>
+                    {/* <option selected>Open this select menu</option> */}
                     <option value="Lawyer">Lawyer</option>
                     <option value="Registrar">Registrar</option>
                     <option value="Judge">Judge</option>

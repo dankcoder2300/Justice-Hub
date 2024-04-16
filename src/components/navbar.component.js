@@ -44,7 +44,10 @@ export default class Navbar extends Component {
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav" style={{ alignItems: "center" }}>
+            <ul
+              class="navbar-nav"
+              style={{ alignItems: "center", width: "100%" }}
+            >
               {user === "exists" && (
                 <>
                   <li class="nav-item">
@@ -133,17 +136,10 @@ export default class Navbar extends Component {
                       </li>
                     </ul>
                   </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">
-                      <Link onClick={this.logout} className="nav-link">
-                        Logout
-                      </Link>
-                    </a>
-                  </li>
                 </>
               )}
               {user !== "exists" && (
-                <>
+                <div style={{ display: "flex", marginLeft: "auto" }}>
                   <li class="nav-item">
                     <a class="nav-link" href="/RegisterUser">
                       Register User
@@ -154,31 +150,43 @@ export default class Navbar extends Component {
                       Login
                     </a>
                   </li>
-                </>
+                </div>
               )}
             </ul>
-            <div style={{ marginLeft: "24%" }}>
-              <form class="form-inline my-2 my-lg-0">
-                <div style={{ display: "flex" }}>
-                  <div style={{ marginRight: "5%" }}>
-                    <input
-                      class="form-control mr-sm-2"
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                    />
+            {user === "exists" && (
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  marginLeft: "auto",
+                  gap: "2em"
+                }}
+              >
+                <form class="form-inline my-2 my-lg-0">
+                  <div style={{ display: "flex" }}>
+                    <div style={{ marginRight: "5%" }}>
+                      <input
+                        class="form-control mr-sm-2"
+                        type="search"
+                        placeholder="Search"
+                        aria-label="Search"
+                      />
+                    </div>
+                    <div style={{ marginRight: "auto" }}>
+                      <button
+                        class="btn btn-outline-success my-2 my-sm-0"
+                        type="submit"
+                      >
+                        Search
+                      </button>
+                    </div>
                   </div>
-                  <div style={{ marginRight: "auto" }}>
-                    <button
-                      class="btn btn-outline-success my-2 my-sm-0"
-                      type="submit"
-                    >
-                      Search
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
+                </form>
+                <Link onClick={this.logout} className="btn ">
+                  Logout
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </nav>

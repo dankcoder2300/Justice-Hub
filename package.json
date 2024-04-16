@@ -8,12 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "axios": "^1.6.8",
     "bootstrap": "^5.2.3",
-    "cookie-parser": "^1.4.5",
-    "express-session": "^1.17.1",
-    "mongoose": "^5.11.0",
-    "mongoose-auto-increment": "^5.0.1",
-    "morgan": "^1.10.0",
-    "path": "^0.12.7",
+    "moment": "^2.30.1",
     "react": "^17.0.1",
     "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
@@ -46,7 +41,6 @@
       "last 1 safari version"
     ]
   },
-  "./lib/util/namespace": "./lib/util/namespace.js",
   "devDependencies": {
     "@types/react-router-dom": "^5.3.3"
   }
