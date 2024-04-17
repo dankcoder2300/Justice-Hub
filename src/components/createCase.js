@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import DatePicker from "react-datepicker";
 import axios from "axios";
-import { redirect } from "react-router-dom";
 import "react-datepicker/dist/react-datepicker.css";
+import CalenderComponent from "./Calender";
 
 export default class CreateCase extends Component {
   constructor(props) {
@@ -24,6 +24,9 @@ export default class CreateCase extends Component {
       end_date: new Date(),
       status: "",
       summary: "",
+      next_hearing: new Date(),
+      hearing_slot: 1,
+      next_nearest_date: null,
     };
 
     this.onChangeDefName = this.onChangeDefName.bind(this);
@@ -41,6 +44,9 @@ export default class CreateCase extends Component {
     this.onChangeStatus = this.onChangeStatus.bind(this);
     this.onChangeSummary = this.onChangeSummary.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.onChangeNextHearing = this.onChangeNextHearing.bind(this);
+    this.onUpdateNextHearingDate = this.onUpdateNextHearingDate.bind(this);
+    this.onSlotUpdate = this.onSlotUpdate.bind(this);
   }
 
   onChangeDefName(e) {
@@ -123,6 +129,24 @@ export default class CreateCase extends Component {
     });
   }
 
+  onChangeNextHearing(date) {
+    this.setState({
+      next_hearing: date,
+    });
+  }
+
+  onSlotUpdate(e){
+    this.setState({
+      hearing_slot: e.target.value,
+    })
+  }
+
+  onUpdateNextHearingDate(date) {
+    this.setState({
+      next_nearest_date: date,
+    });
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -141,6 +165,8 @@ export default class CreateCase extends Component {
       end_date: this.state.end_date,
       status: this.state.status,
       summary: this.state.summary,
+      next_hearing: this.state.next_hearing,
+      hearing_slot: this.state.hearing_slot,
     };
 
     console.log(exercise);
@@ -176,127 +202,162 @@ export default class CreateCase extends Component {
       <div className="update_form">
         <h3 style={{ margin: "1em 0" }}>Enter The Case Details</h3>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Defandant's name: </label>
-            <input
-              type="text"
-              required
-              className="form-control"
-              value={this.state.def_name}
-              onChange={this.onChangeDefName}
-            />
-          </div>
-          <div className="form-group">
-            <label>Defandant's address: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.def_addr}
-              onChange={this.onChangeDefAddr}
-            />
-          </div>
+          <div className="form-container">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <div className="form-group" style={{ width: "60%" }}>
+                <label>Defandant's name: </label>
+                <input
+                  type="text"
+                  required
+                  className="form-control"
+                  value={this.state.def_name}
+                  onChange={this.onChangeDefName}
+                />
+              </div>
+              <div className="form-group">
+                <label>Defandant's address: </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.def_addr}
+                  onChange={this.onChangeDefAddr}
+                />
+              </div>
 
-          <div className="form-group">
-            <label>Crime type: </label>
-            <input
-              type="text"
-              required
-              className="form-control"
-              value={this.state.crime_type}
-              onChange={this.onChangeCrimeType}
-            />
-          </div>
-          <div className="form-group">
-            <label>Crime Date:</label>
-            <DatePicker
-              selected={this.state.crime_date}
-              onChange={this.onChangeCrimeDate}
-            />
-          </div>
-          <div className="form-group">
-            <label>Crime Location: </label>
-            <input
-              type="text"
-              required
-              className="form-control"
-              value={this.state.crime_location}
-              onChange={this.onChangeCrimeLoc}
-            />
-          </div>
-          <div className="form-group">
-            <label>Arresting Officer name: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.ao_name}
-              onChange={this.onChangeAoName}
-            />
-          </div>
-          <div className="form-group">
-            <label>Arrest Date:</label>
-            <DatePicker
-              selected={this.state.arrest_date}
-              onChange={this.onChangeArrestDate}
-            />
-          </div>
-          <div className="form-group">
-            <label>Judge Name: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.judge_name}
-              onChange={this.onChangeJudgeName}
-            />
-          </div>
-          <div className="form-group">
-            <label>Lawyer Name: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.lawyer_name}
-              onChange={this.onChangeLawyerName}
-            />
-          </div>
-          <div className="form-group">
-            <label>Prosecutor Name: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.prosecutor_name}
-              onChange={this.onChangeProsecutorName}
-            />
-          </div>
-          <div className="form-group">
-            <label>Start Date: </label>
-            <DatePicker
-              selected={this.state.start_date}
-              onChange={this.onChangeStartDate}
-            />
-          </div>
-          <div className="form-group">
-            <label>End Date: </label>
-            <DatePicker
-              selected={this.state.end_date}
-              onChange={this.onChangeEndDate}
-            />
-          </div>
-          <div className="form-group">
-            <label>Status: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.status}
-              onChange={this.onChangeStatus}
-            />
-          </div>
-          <div className="form-group">
-            <label>Summary: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.summary}
-              onChange={this.onChangeSummary}
-            />
+              <div className="form-group">
+                <label>Crime type: </label>
+                <input
+                  type="text"
+                  required
+                  className="form-control"
+                  value={this.state.crime_type}
+                  onChange={this.onChangeCrimeType}
+                />
+              </div>
+              <div className="form-group">
+                <label>Crime Date:</label>
+                <DatePicker
+                  selected={this.state.crime_date}
+                  onChange={this.onChangeCrimeDate}
+                />
+              </div>
+              <div className="form-group">
+                <label>Crime Location: </label>
+                <input
+                  type="text"
+                  required
+                  className="form-control"
+                  value={this.state.crime_location}
+                  onChange={this.onChangeCrimeLoc}
+                />
+              </div>
+              <div className="form-group">
+                <label>Arresting Officer name: </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.ao_name}
+                  onChange={this.onChangeAoName}
+                />
+              </div>
+              <div className="form-group">
+                <label>Arrest Date:</label>
+                <DatePicker
+                  selected={this.state.arrest_date}
+                  onChange={this.onChangeArrestDate}
+                />
+              </div>
+              <div className="form-group">
+                <label>Judge Name: </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.judge_name}
+                  onChange={this.onChangeJudgeName}
+                />
+              </div>
+              <div className="form-group">
+                <label>Lawyer Name: </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.lawyer_name}
+                  onChange={this.onChangeLawyerName}
+                />
+              </div>
+              <div className="form-group">
+                <label>Prosecutor Name: </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.prosecutor_name}
+                  onChange={this.onChangeProsecutorName}
+                />
+              </div>
+              <div className="form-group">
+                <label>Start Date: </label>
+                <DatePicker
+                  selected={this.state.start_date}
+                  onChange={this.onChangeStartDate}
+                />
+              </div>
+              <div className="form-group">
+                <label>Expected end Date: </label>
+                <DatePicker
+                  selected={this.state.end_date}
+                  onChange={this.onChangeEndDate}
+                />
+              </div>
+              <div className="form-group">
+                <label>Status: </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.status}
+                  onChange={this.onChangeStatus}
+                />
+              </div>
+              <div className="form-group">
+                <label>Summary: </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.summary}
+                  onChange={this.onChangeSummary}
+                />
+              </div>
+              <div className="form-group">
+                <label>Next Hearing date: </label>
+                <DatePicker
+                  selected={this.state.next_hearing}
+                  onChange={this.onChangeNextHearing}
+                />
+
+                {this.state.next_nearest_date && (
+                  <span>
+                    ( {this.state.next_nearest_date} )
+                  </span>
+                )}
+              </div>
+              <div className="form-group">
+                <label>Next Hearing Slot: </label>
+                <select class="form-select" aria-label="Hearing select" onChange={this.onSlotUpdate}>
+                  <option value={1}>Slot 1 :: 10:00 AM to 12:00 PM</option>
+                  <option value={2}>Slot 2 :: 2:00 PM to 4:00 PM</option>
+                </select>
+              </div>
+            </div>
+            <div style={{ width: "40%" }}>
+              <CalenderComponent
+                updateNextHearingDate={this.onUpdateNextHearingDate}
+              />
+            </div>
           </div>
           <div
             style={{

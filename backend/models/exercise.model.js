@@ -15,7 +15,8 @@ const exerciseSchema = new Schema({
     start_date:     {type: Date , required: true},
     end_date:       {type: Date, required: true},
     status:         {type: String , required: true},
-    summary:        {type: String , required: true}
+    summary:        {type: String , required: true},
+    next_hearing:   {date: {type: Date, required: true}, slot: {type: Number, required: true, enum: [1,2]}},
 
 },{
     timestamps: true
