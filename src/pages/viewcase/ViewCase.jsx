@@ -17,6 +17,7 @@ import {
   FormControlLabel,
   Checkbox,
 } from "@mui/material";
+import moment from "moment";
 
 const ViewCase = () => {
   const { id } = useParams();
@@ -61,6 +62,7 @@ const ViewCase = () => {
               py: 2,
               backgroundColor: "#abc5b2",
               borderRadius: "10px",
+              // fontSize: '0.9em'
             }}
           >
             <Grid item xs={12} sm={4}>
@@ -128,7 +130,7 @@ const ViewCase = () => {
               />
             </Grid>
             <Grid item xs={12} sm={4}>
-              <ShowField type="date" label="Status" value={caseData.status} />
+              <ShowField label="Status" value={caseData.status} />
             </Grid>
             <Grid item xs={12} sm={4}>
               <ShowField
@@ -138,10 +140,32 @@ const ViewCase = () => {
               />
             </Grid>
           </Grid>
-          <Grid container spacing={2} sx={{ mb: 2 }}>
-            <Grid item xs={12}>
-              <ShowField label="Summary" value={caseData.summary} />
-            </Grid>
+          <Grid container spacing={2} sx={{ mb: 2, p: 4 }}>
+            {caseData.summaries &&
+              caseData.summaries.map((summary, sIndex) => (
+                <div
+                  key={sIndex}
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    fontSize: "1.25em",
+                    gap: "2em",
+                    borderBottom: "1px solid grey",
+                    marginBottom: "1em",
+                    paddingBottom: "1em",
+                  }}
+                >
+                  <div>
+                    <b>Hearing Date:</b>
+                    &nbsp;&nbsp;
+                    {moment(summary.hearingDate).format("Do MMMM YYYY")}
+                  </div>
+                  <div>
+                    <b>Summary:</b> &nbsp;&nbsp; {summary.summary}
+                  </div>
+                  <hr />
+                </div>
+              ))}
           </Grid>
           <Box sx={{ width: "100%", display: "flex" }}>
             <Link

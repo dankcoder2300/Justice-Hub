@@ -23,7 +23,7 @@ const Exercise = (props) => {
       <td>{props.exercise.prosecutor_name}</td>
       <td>{moment(props.exercise.start_date).format("MMM Do YY")}</td>
       <td>{moment(props.exercise.end_date).format("MMM Do YY")}</td>
-      <td>
+      {/* <td>
         {props.exercise.summaries &&
           props.exercise.summaries.map((summary, sIndex) => (
             <div key={sIndex}>
@@ -34,19 +34,18 @@ const Exercise = (props) => {
               <div>
                 <b>Summary:</b> {summary.summary}
               </div>
-              <hr/>
+              <hr />
             </div>
           ))}
-      </td>
+      </td> */}
       <td id="view">
-      <Link to={"/viewcase/" + props.exercise._id}>
-        <AiOutlineEye color="#000" />
-      </Link>
-    </td>
+        <Link to={"/viewcase/" + props.exercise._id}>
+          <AiOutlineEye color="#000" />
+        </Link>
+      </td>
     </tr>
   );
 };
-
 
 export default class ExercisesList extends Component {
   constructor(props) {
@@ -58,6 +57,7 @@ export default class ExercisesList extends Component {
     axios
       .get("http://localhost:5000/exercises")
       .then((response) => {
+        console.log(response.data);
         this.setState({ exercises: response.data });
       })
       .catch((err) => console.log(err));
@@ -77,36 +77,33 @@ export default class ExercisesList extends Component {
 
   render() {
     return (
-
       <div style={{ margin: "1em 0.5em" }}>
         <h2>Cases</h2>
-        <table class="table table-striped" style={{ marginBottom: "2em" }}>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>CIN</th>
-                <th>Defandant Name</th>
-                {/* <th>Defandant Addr</th> */}
-                <th>Crime type</th>
-                <th>Crime date</th>
-                {/* <th>Crime location</th> */}
-                <th>Arresting Officer</th>
-                <th>Arrest date</th>
-                <th>Judge name</th>
-                <th>Lawyer name</th>
-                <th>Prosecutor name</th>
-                <th>Start date</th>
-                <th>End date</th>
-                <th>Adjournment</th>
-                {/* <th>Actions</th> */}
-                {/* <th>Status</th> */}
-                {/* <th>Summary</th> */}
-                <th>View</th>
-              </tr>
-            </thead>
-            <tbody>{this.exerciseList()}</tbody>
-          </table>
-        </div>
+        <table class="table" style={{ marginBottom: "2em" }}>
+          <thead>
+            <tr>
+              <th>CIN</th>
+              <th>Defandant Name</th>
+              {/* <th>Defandant Addr</th> */}
+              <th>Crime type</th>
+              <th>Crime date</th>
+              {/* <th>Crime location</th> */}
+              <th>Arresting Officer</th>
+              <th>Arrest date</th>
+              <th>Judge name</th>
+              <th>Lawyer name</th>
+              <th>Prosecutor name</th>
+              <th>Start date</th>
+              <th>End date</th>
+              {/* <th>Adjournment</th> */}
+              {/* <th>Actions</th> */}
+              {/* <th>Status</th> */}
+              {/* <th>Summary</th> */}
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody>{this.exerciseList()}</tbody>
+        </table>
       </div>
     );
   }

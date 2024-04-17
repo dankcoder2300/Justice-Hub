@@ -90,29 +90,14 @@ router.route('/:id').delete((req, res) => {
         .catch(err => res.json('Error ' + err));
 });
 
-router.route('/update/:id').post((req, res) => {
-    Exercise.findByIdAndUpdate(req.params.id, req.body)
-        .then(exercise => {
-            exercise.def_name = req.body.def_name;
-            exercise.def_addr = req.body.def_addr;
-            exercise.crime_type = req.body.crime_date;
-            exercise.crime_date = Date.parse(req.body.crime_date);
-            exercise.crime_location = req.body.crime_location;
-            exercise.ao_name = req.body.ao_name;
-            exercise.arrest_date = req.body.arrest_date;
-            exercise.judge_name = req.body.judge_name;
-            exercise.lawyer_name = req.body.lawyer_name;
-            exercise.prosecutor_name = req.body.prosecutor_name;
-            exercise.start_date = Date.parse(req.body.start_date);
-            exercise.end_date = Date.parse(req.body.end_date);
-            exercise.status = req.body.status;
-            exercise.summaries = req.body.summaries;
-
-            exercise.save()
-                .then(() => res.status(200).json('Updated'))
-                .catch(err => res.status(400).json('Error ' + err));
-        })
-        .catch(err => res.status(400).json('Error ' + err));
+router.route('/update/:id').post(async (req, res) => {
+    const resp = await Exercise.findByIdAndUpdate(req.params.id, req.body, {returnDocument: 'after'});
+    console.log(resp);
+    res.status(200).json('Updated')
+        //   exercise.save()
+        //       .then(() => )
+        //       .catch(err => res.status(400).json('Error ' + err));
+        // .catch(err => res.status(400).json('Error ' + err));
 
 });
 

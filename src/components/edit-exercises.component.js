@@ -4,6 +4,7 @@ import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "@mui/material/Button";
 import { withRouter } from "react-router-dom";
+import customFetch from "../utils/axios";
 
 class UpdateCase extends Component {
   constructor(props) {
@@ -67,6 +68,7 @@ class UpdateCase extends Component {
           end_date: Date.parse(data.end_date),
           status: data.status,
           summary: data.summary,
+          summaries: data.summaries,
         });
       })
       .catch((err) => console.log(err));
@@ -186,10 +188,11 @@ class UpdateCase extends Component {
       summaries: this.state.summaries,
     };
 
-    console.log(exercise);
+    const id = this.props.match.params.id;
+    // console.log(exercise, id);
 
-    axios
-      .post("http://localhost:5000/exercises/update/" + exercise._id, exercise)
+    customFetch
+      .post("/exercises/update/" + id, exercise)
       .then((res) => {
         console.log(res.data);
       })
@@ -330,24 +333,31 @@ class UpdateCase extends Component {
                 />
               </div>
               <div className="form-group">
-                <label>
-                  Hearing Date {sIndex + 1}:{" "}
-                  <DatePicker
-                    selected={summary.hearingDate}
-                    onChange={(date) => this.onChangeHearingDate(date, sIndex)}
-                  />
-                </label>
+                <label>Hearing Date {sIndex + 1}: </label>
+                <DatePicker
+                  selected={new Date(summary.hearingDate)}
+                  onChange={(date) => this.onChangeHearingDate(date, sIndex)}
+                />
               </div>
             </div>
           ))}
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={this.addSummary}
-          >
-            Add Summary
-          </button>
-          <Button type="submit" variant="contained" style={{margin: '1em 0'}}>Update case</Button>
+          <div style={{display: 'flex', justifyContent: 'space-around'}}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={this.addSummary}
+              style={{ margin: "1em 0" }}
+            >
+              Add Summary
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ margin: "1em 0" }}
+            >
+              Update case
+            </button>
+          </div>
         </form>
       </div>
     );

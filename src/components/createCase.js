@@ -149,10 +149,10 @@ export default class CreateCase extends Component {
     });
   }
 
-  onSlotUpdate(e){
+  onSlotUpdate(e) {
     this.setState({
       hearing_slot: e.target.value,
-    })
+    });
   }
 
   onUpdateNextHearingDate(date) {
@@ -193,12 +193,11 @@ export default class CreateCase extends Component {
       })
       .catch((err) => {
         if (err.response && err.response.status === 403) {
-            alert("Only a registrar can create a case.");
+          alert("Only a registrar can create a case.");
         } else {
-            alert("An error occurred while adding the case.");
+          alert("An error occurred while adding the case.");
         }
-    });
-
+      });
 
     this.setState({
       def_name: "",
@@ -348,45 +347,6 @@ export default class CreateCase extends Component {
                 />
               </div>
               <div className="form-group">
-                <label>Summary: </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={this.state.summary}
-                  onChange={this.onChangeSummary}
-                />
-              </div>
-              {this.state.summaries.map((summary, sIndex) => (
-            <div key={sIndex}>
-              <div className="form-group">
-                <label>Summary {sIndex + 1}: </label>
-                <input
-                  type="text"
-                  required
-                  className="form-control"
-                  value={summary.summary}
-                  onChange={(e) => this.onChangeSummary(e, sIndex)}
-                />
-              </div>
-              <div className="form-group">
-                <label>
-                  Hearing Date {sIndex + 1}:{" "}
-                  <DatePicker
-                    selected={summary.hearingDate}
-                    onChange={(date) => this.onChangeHearingDate(date, sIndex)}
-                  />
-                </label>
-              </div>
-            </div>
-          ))}
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={this.addSummary}
-          >
-            Add Summary
-          </button>
-              <div className="form-group">
                 <label>Next Hearing date: </label>
                 <DatePicker
                   selected={this.state.next_hearing}
@@ -394,18 +354,52 @@ export default class CreateCase extends Component {
                 />
 
                 {this.state.next_nearest_date && (
-                  <span>
-                    ( {this.state.next_nearest_date} )
-                  </span>
+                  <span>( {this.state.next_nearest_date} )</span>
                 )}
               </div>
               <div className="form-group">
                 <label>Next Hearing Slot: </label>
-                <select class="form-select" aria-label="Hearing select" onChange={this.onSlotUpdate}>
+                <select
+                  class="form-select"
+                  aria-label="Hearing select"
+                  onChange={this.onSlotUpdate}
+                >
                   <option value={1}>Slot 1 :: 10:00 AM to 12:00 PM</option>
                   <option value={2}>Slot 2 :: 2:00 PM to 4:00 PM</option>
                 </select>
               </div>
+              {this.state.summaries.map((summary, sIndex) => (
+                <div key={sIndex}>
+                  <div className="form-group">
+                    <label>Summary {sIndex + 1}: </label>
+                    <input
+                      type="text"
+                      required
+                      className="form-control"
+                      value={summary.summary}
+                      onChange={(e) => this.onChangeSummary(e, sIndex)}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label>
+                      Hearing Date {sIndex + 1}:{" "}
+                      <DatePicker
+                        selected={summary.hearingDate}
+                        onChange={(date) =>
+                          this.onChangeHearingDate(date, sIndex)
+                        }
+                      />
+                    </label>
+                  </div>
+                </div>
+              ))}
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={this.addSummary}
+              >
+                Add Summary
+              </button>
             </div>
             <div style={{ width: "40%" }}>
               <CalenderComponent
