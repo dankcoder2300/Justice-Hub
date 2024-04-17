@@ -174,7 +174,7 @@ export default class CreateCase extends Component {
   render() {
     return (
       <div className="update_form">
-        <h3>Enter The Case Details</h3>
+        <h3 style={{ margin: "1em 0" }}>Enter The Case Details</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group">
             <label>Defandant's name: </label>
@@ -207,13 +207,11 @@ export default class CreateCase extends Component {
             />
           </div>
           <div className="form-group">
-            <label>
-              Crime Date:
-              <DatePicker
-                selected={this.state.crime_date}
-                onChange={this.onChangeCrimeDate}
-              />
-            </label>
+            <label>Crime Date:</label>
+            <DatePicker
+              selected={this.state.crime_date}
+              onChange={this.onChangeCrimeDate}
+            />
           </div>
           <div className="form-group">
             <label>Crime Location: </label>
@@ -235,13 +233,11 @@ export default class CreateCase extends Component {
             />
           </div>
           <div className="form-group">
-            <label>
-              Arrest Date:
-              <DatePicker
-                selected={this.state.arrest_date}
-                onChange={this.onChangeArrestDate}
-              />
-            </label>
+            <label>Arrest Date:</label>
+            <DatePicker
+              selected={this.state.arrest_date}
+              onChange={this.onChangeArrestDate}
+            />
           </div>
           <div className="form-group">
             <label>Judge Name: </label>
@@ -302,7 +298,13 @@ export default class CreateCase extends Component {
               onChange={this.onChangeSummary}
             />
           </div>
-          <div className="form-group">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: "2em",
+            }}
+          >
             <input type="submit" className="btn" value="Create Case" />
             {this.case_created && (
               <>

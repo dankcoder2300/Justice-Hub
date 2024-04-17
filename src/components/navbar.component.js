@@ -1,9 +1,11 @@
 import React, { Component } from "react";
+import { Button, Menu, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 
 export default class Navbar extends Component {
   constructor(props) {
     super(props);
+    this.state = { open: false };
     this.showAlert = this.showAlert.bind(this);
   }
   logout = () => {
@@ -61,44 +63,13 @@ export default class Navbar extends Component {
                   </li>
                   <li class="nav-item dropdown">
                     {type === "Registrar" && (
-                      <a
-                        class="nav-link dropdown-toggle"
-                        href="#"
-                        role="button"
-                        data-bs-toggle="dropdown"
-                        aria-expanded="false"
-                      >
+                      <Link class="nav-link" to="/create">
                         Create Cases
-                      </a>
+                      </Link>
                     )}
-                    <ul class="dropdown-menu">
-                      {type === "Registrar" && (
-                        <>
-                          <li>
-                            <a class="dropdown-item" href="/create">
-                              Upcoming Cases
-                            </a>
-                          </li>
-                        </>
-                      )}
-                      {type === "Registrar" && (
-                        <>
-                          <li>
-                            <a class="dropdown-item" href="/create">
-                              Pending Cases
-                            </a>
-                          </li>
-                        </>
-                      )}
-                      <li>
-                        <a class="dropdown-item" href="/create">
-                          Resolved Cases
-                        </a>
-                      </li>
-                    </ul>
                   </li>
                   <li class="nav-item dropdown">
-                    <a
+                    <Button
                       class="nav-link dropdown-toggle"
                       href="#"
                       role="button"
@@ -107,34 +78,31 @@ export default class Navbar extends Component {
                       onClick={this.showAlert}
                     >
                       View Cases
-                    </a>
-                    <ul class="dropdown-menu">
-                      {type === "Registrar" && (
-                        <>
-                          <li>
-                            <a class="dropdown-item" href="/upcomingCase">
-                              Upcoming Cases
-                            </a>
-                          </li>
-                        </>
-                      )}
-                      <li>
-                        {type === "Registrar" && (
-                          <>
-                            <li>
-                              <a class="dropdown-item" href="/pendingCase">
-                                Pending Cases
-                              </a>
-                            </li>
-                          </>
-                        )}
-                        <li>
-                          <a class="dropdown-item" href="/pastCase">
-                            Resolved Cases
-                          </a>
-                        </li>
-                      </li>
-                    </ul>
+                    </Button>
+                    <Button
+                      aria-controls={this.state.open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={this.state.open ? "true" : undefined}
+                      onClick={() =>
+                        this.setState((prev) => ({
+                          open: !prev.open,
+                        }))
+                      }
+                    >
+                      View Cases
+                    </Button>
+                    <Menu
+                      id="basic-menu"
+                      open={this.state.open}
+                      onClose={() => this.setState({ open: false })}
+                      MenuListProps={{
+                        "aria-labelledby": "basic-button",
+                      }}
+                    >
+                      <Link to="/upcomingCase">Upcoming Cases</Link>
+                      <Link to="/pendingCase">Pending Cases</Link>
+                      <Link to="/pastCase">Resolved Cases</Link>
+                    </Menu>
                   </li>
                 </>
               )}
@@ -159,7 +127,7 @@ export default class Navbar extends Component {
                   display: "flex",
                   alignItems: "center",
                   marginLeft: "auto",
-                  gap: "2em"
+                  gap: "2em",
                 }}
               >
                 <form class="form-inline my-2 my-lg-0">
