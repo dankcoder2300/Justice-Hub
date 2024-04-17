@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import { BACKEND_URL } from "../data";
 
 class Login extends Component {
   constructor(props) {
@@ -44,7 +45,6 @@ class Login extends Component {
   }
   onSubmit = async (e) => {
     e.preventDefault();
-
     const user = {
       username: this.state.username,
       password: this.state.password,
@@ -83,7 +83,7 @@ class Login extends Component {
   };
   render() {
     return (
-      <div className="login-container" style={{ height: "150vh" }}>
+      <div className="login-container">
         <div className="container">
           <div className="screen">
             <div className="screen__content">
@@ -92,12 +92,13 @@ class Login extends Component {
                 <div className="login__field">
                   <select
                     class="form-select"
+                    id="role-select"
                     aria-label="Default select example"
                     onChange={this.onChangeType}
                     value={this.state.type}
                     required
                   >
-                    <option selected>Open this select menu</option>
+                    {/* <option selected>Open this select menu</option> */}
                     <option value="Lawyer">Lawyer</option>
                     <option value="Registrar">Registrar</option>
                     <option value="Judge">Judge</option>

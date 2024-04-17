@@ -3,20 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^1.6.8",
     "bootstrap": "^5.2.3",
-    "cookie-parser": "^1.4.5",
-    "express-session": "^1.17.1",
-    "mongoose": "^5.11.0",
-    "mongoose-auto-increment": "^5.0.1",
-    "morgan": "^1.10.0",
-    "path": "^0.12.7",
+    "moment": "^2.30.1",
     "react": "^17.0.1",
+    "react-calendar": "^4.8.0",
     "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
+    "react-icons": "^5.1.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^5.0.1",
     "session-file-store": "^1.5.0",
@@ -46,8 +46,8 @@
       "last 1 safari version"
     ]
   },
-  "./lib/util/namespace": "./lib/util/namespace.js",
   "devDependencies": {
-    "@types/react-router-dom": "^5.3.3"
+    "@types/react-router-dom": "^5.3.3",
+    "concurrently": "^8.2.2"
   }
 }

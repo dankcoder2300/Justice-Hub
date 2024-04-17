@@ -1,10 +1,10 @@
-const router = require('express').Router();
-const Exercise = require('../models/exercise.model');
+const router = require("express").Router();
+const Exercise = require("../models/exercise.model");
 
-router.route('/').get((req, res) => {
-    Exercise.find()
-        .then(exercises => res.status(200).json(exercises))
-        .catch(err => res.status(400).json('Error ' + err));
+router.route("/").get((req, res) => {
+  Exercise.find()
+    .then((exercises) => res.status(200).json(exercises))
+    .catch((err) => res.status(400).json("Error " + err));
 });
 
 router.route('/add').post((req, res) => {
@@ -22,7 +22,9 @@ router.route('/add').post((req, res) => {
         start_date,
         end_date,
         status,
-        summaries
+        summaries,
+        next_hearing,
+        hearing_slot,
     } = req.body;
 
     const newExercise = new Exercise({
@@ -39,7 +41,8 @@ router.route('/add').post((req, res) => {
         start_date,
         end_date,
         status,
-        summaries
+        summaries,
+        next_hearing: {date: next_hearing, slot: hearing_slot}
     });
 
     console.log(newExercise);
@@ -47,6 +50,32 @@ router.route('/add').post((req, res) => {
     newExercise.save()
         .then(() => res.status(200).json('Exercise added!'))
         .catch(err => res.json('Error ' + err));
+});
+
+router.route("/emptyslots").get(async (req, res) => {
+  try {
+    console.log('fffffff');
+    const startDate = new Date();
+    const endDate = new Date();
+    endDate.setDate(startDate.getDate() + 30);
+
+    const slots = [1, 2];
+    const emptySlots = {};
+
+    for (let d = startDate; d <= endDate; d.setDate(d.getDate() + 1)) {
+      if(d.getDay() === 0 || d.getDay() === 6) continue; // skip weekends
+      const resp = await Exercise.find({ "next_hearing.date": d }).select(
+        "next_hearing"
+      );
+      const filled = resp.map((x) => x.next_hearing.slot);
+      const empty = slots.filter((x) => !filled.includes(x));
+      emptySlots[d.toISOString().split("T")[0]] = empty;
+    }
+    res.status(200).json(emptySlots);
+  } catch (e) {
+    console.log(e);
+    res.status(400).json("Error " + e);
+  }
 });
 
 router.route('/:id').get((req, res) => {
@@ -84,6 +113,7 @@ router.route('/update/:id').post((req, res) => {
                 .catch(err => res.status(400).json('Error ' + err));
         })
         .catch(err => res.status(400).json('Error ' + err));
+
 });
 
 module.exports = router;

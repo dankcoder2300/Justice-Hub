@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import moment from "moment";
+import { AiOutlineEye } from "react-icons/ai";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -10,18 +12,17 @@ const Exercise = (props) => {
     <tr>
       <td>{props.id}</td>
       <td>{props.exercise.def_name}</td>
-      <td>{props.exercise.def_addr}</td>
+      {/* <td>{props.exercise.def_addr}</td> */}
       <td>{props.exercise.crime_type}</td>
-      <td>{props.exercise.crime_date}</td>
-      <td>{props.exercise.crime_location}</td>
+      <td>{moment(props.exercise.crime_date).format("MMM Do YY")}</td>
+      {/* <td>{props.exercise.crime_location}</td> */}
       <td>{props.exercise.ao_name}</td>
-      <td>{props.exercise.arrest_date}</td>
+      <td>{moment(props.exercise.arrest_date).format("MMM Do YY")}</td>
       <td>{props.exercise.judge_name}</td>
       <td>{props.exercise.lawyer_name}</td>
       <td>{props.exercise.prosecutor_name}</td>
-      <td>{props.exercise.start_date}</td>
-      <td>{props.exercise.end_date}</td>
-      <td>{props.exercise.status}</td>
+      <td>{moment(props.exercise.start_date).format("MMM Do YY")}</td>
+      <td>{moment(props.exercise.end_date).format("MMM Do YY")}</td>
       <td>
         {props.exercise.summaries &&
           props.exercise.summaries.map((summary, sIndex) => (
@@ -37,12 +38,15 @@ const Exercise = (props) => {
             </div>
           ))}
       </td>
-      <td id="update">
-        <Link to={"/update/" + props.exercise._id}>update</Link>
-      </td>
+      <td id="view">
+      <Link to={"/viewcase/" + props.exercise._id}>
+        <AiOutlineEye color="#000" />
+      </Link>
+    </td>
     </tr>
   );
 };
+
 
 export default class ExercisesList extends Component {
   constructor(props) {
@@ -73,18 +77,19 @@ export default class ExercisesList extends Component {
 
   render() {
     return (
-      <div>
-        <h3>Cases</h3>
-        <div className="table-responsive">
-          <table className="table table-striped">
+
+      <div style={{ margin: "1em 0.5em" }}>
+        <h2>Cases</h2>
+        <table class="table table-striped" style={{ marginBottom: "2em" }}>
+          <table class="table">
             <thead>
               <tr>
                 <th>CIN</th>
-                <th>Defendant Name</th>
-                <th>Defendant Addr</th>
+                <th>Defandant Name</th>
+                {/* <th>Defandant Addr</th> */}
                 <th>Crime type</th>
                 <th>Crime date</th>
-                <th>Crime location</th>
+                {/* <th>Crime location</th> */}
                 <th>Arresting Officer</th>
                 <th>Arrest date</th>
                 <th>Judge name</th>
@@ -92,9 +97,11 @@ export default class ExercisesList extends Component {
                 <th>Prosecutor name</th>
                 <th>Start date</th>
                 <th>End date</th>
-                <th>Status</th>
                 <th>Adjournment</th>
                 {/* <th>Actions</th> */}
+                {/* <th>Status</th> */}
+                {/* <th>Summary</th> */}
+                <th>View</th>
               </tr>
             </thead>
             <tbody>{this.exerciseList()}</tbody>

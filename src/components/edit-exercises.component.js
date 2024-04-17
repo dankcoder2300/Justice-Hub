@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import DatePicker from "react-datepicker";
 import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
+import Button from "@mui/material/Button";
 import { withRouter } from "react-router-dom";
 
 class UpdateCase extends Component {
@@ -200,11 +201,12 @@ class UpdateCase extends Component {
   render() {
     return (
       <div className="update_form">
-        <h3>Update Case</h3>
+        <h2 style={{ margin: "1em 0" }}>Update Case</h2>
         <form onSubmit={this.onSubmit} style={{ width: "45%" }}>
           <div className="form-group">
-            <label>Defandant's name: </label>
+            <label htmlFor="def_name">Defandant's name: </label>
             <input
+              id="def_name"
               type="text"
               required
               className="form-control"
@@ -232,13 +234,12 @@ class UpdateCase extends Component {
             />
           </div>
           <div className="form-group">
-            <label>
-              Crime Date:
-              <DatePicker
-                selected={this.state.crime_date}
-                onChange={this.onChangeCrimeDate}
-              />
-            </label>
+            <label htmlFor="crime_date">Crime Date:</label>
+            <DatePicker
+              id="crime_date"
+              selected={this.state.crime_date}
+              onChange={this.onChangeCrimeDate}
+            />
           </div>
           <div className="form-group">
             <label>Crime Location: </label>
@@ -260,13 +261,11 @@ class UpdateCase extends Component {
             />
           </div>
           <div className="form-group">
-            <label>
-              Arrest Date:
-              <DatePicker
-                selected={this.state.arrest_date}
-                onChange={this.onChangeArrestDate}
-              />
-            </label>
+            <label>Arrest Date:</label>
+            <DatePicker
+              selected={this.state.arrest_date}
+              onChange={this.onChangeArrestDate}
+            />
           </div>
           <div className="form-group">
             <label>Judge Name: </label>
@@ -348,9 +347,7 @@ class UpdateCase extends Component {
           >
             Add Summary
           </button>
-          <div className="form-group" style={{ margin: "4px 0 0 0" }}>
-            <input type="submit" className="btn" value="Update Case" />
-          </div>
+          <Button type="submit" variant="contained" style={{margin: '1em 0'}}>Update case</Button>
         </form>
       </div>
     );

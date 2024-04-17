@@ -1,11 +1,6 @@
-const router =  require('express').Router();
-const User = require('../models/user.model');
+const router = require("express").Router();
+const User = require("../models/user.model");
 
-router.route('/').get((req,res)=>{
-    User.find()
-    .then(users => res.status(200).json(users))
-    .catch(err => res.status(400).json('Error: '+ err));
-});
 
 router.route('/add').post((req,res)=>{
     const username = req.body.username;
@@ -52,7 +47,7 @@ router.route('/login').post((req,res)=>{
             res.json({success: false});
         }
     })
-    .catch(err => res.status(400).json('failed'));
+    .catch((err) => res.status(400).json("failed"));
 });
 
 module.exports = router;
