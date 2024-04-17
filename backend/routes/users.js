@@ -11,6 +11,21 @@ router.route('/add').post((req,res)=>{
     const username = req.body.username;
     const password = req.body.password;
     const type = req.body.type;
+
+    User.findOne({username: req.body.username, password: req.body.password})
+        .then(existingUser => {
+            if (existingUser) {
+                res.status(400).json({
+                    error: 'a user with the email ' + username + ' already exists with type: ' + existingUser.type
+                })
+            } else {
+                createUser(username, password, type, res);
+            }
+        })
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+function createUser(username, password, type, res) {
     const newUser = new User({
         username,
         password,
@@ -22,15 +37,12 @@ router.route('/add').post((req,res)=>{
         }
         else{
             res.status(200).json('User added');
-            // window.alert("Registration sucessful");
         }
-    })
-        
-});
-
+    });
+}
 
 router.route('/login').post((req,res)=>{
-    User.findOne({username: req.body.username, password: req.body.password})
+    User.findOne({username: req.body.username, password: req.body.password, type: req.body.type})
     .then(doc =>{
         console.log(doc);
         if(doc){

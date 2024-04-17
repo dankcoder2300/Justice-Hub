@@ -243,3 +243,13 @@ li{
   list-style: none;
 }
 
+.table-responsive {
+	overflow-x: auto;
+}
+  
+.table-striped {
+	display: block;
+	width: 100%;
+	overflow-x: auto;
+}
+  

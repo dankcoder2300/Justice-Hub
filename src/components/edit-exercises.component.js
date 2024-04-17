@@ -9,6 +9,7 @@ class UpdateCase extends Component {
     super(props);
 
     this.state = {
+      case_created: false,
       def_name: "",
       def_addr: "",
       crime_type: "",
@@ -22,7 +23,7 @@ class UpdateCase extends Component {
       start_date: new Date(),
       end_date: new Date(),
       status: "",
-      summary: "",
+      summaries: [],
     };
 
     this.onChangeDefName = this.onChangeDefName.bind(this);
@@ -39,6 +40,8 @@ class UpdateCase extends Component {
     this.onChangeEndDate = this.onChangeEndDate.bind(this);
     this.onChangeStatus = this.onChangeStatus.bind(this);
     this.onChangeSummary = this.onChangeSummary.bind(this);
+    this.onChangeHearingDate = this.onChangeHearingDate.bind(this);
+    this.addSummary = this.addSummary.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -144,10 +147,22 @@ class UpdateCase extends Component {
     });
   }
 
-  onChangeSummary(e) {
-    this.setState({
-      summary: e.target.value,
-    });
+  onChangeSummary(e, sIndex) {
+    const { summaries } = this.state;
+    summaries[sIndex].summary = e.target.value;
+    this.setState({ summaries });
+  }
+
+  onChangeHearingDate(date, sIndex) {
+    const { summaries } = this.state;
+    summaries[sIndex].hearingDate = date;
+    this.setState({ summaries });
+  }
+
+  addSummary() {
+    const { summaries } = this.state;
+    summaries.push({ summary: "", hearingDate: new Date() });
+    this.setState({ summaries });
   }
 
   onSubmit(e) {
@@ -167,7 +182,7 @@ class UpdateCase extends Component {
       start_date: this.state.start_date,
       end_date: this.state.end_date,
       status: this.state.status,
-      summary: this.state.summary,
+      summaries: this.state.summaries,
     };
 
     console.log(exercise);
@@ -206,7 +221,6 @@ class UpdateCase extends Component {
               onChange={this.onChangeDefAddr}
             />
           </div>
-
           <div className="form-group">
             <label>Crime type: </label>
             <input
@@ -304,15 +318,36 @@ class UpdateCase extends Component {
               onChange={this.onChangeStatus}
             />
           </div>
-          <div className="form-group">
-            <label>Summary: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.summary}
-              onChange={this.onChangeSummary}
-            />
-          </div>
+          {this.state.summaries.map((summary, sIndex) => (
+            <div key={sIndex}>
+              <div className="form-group">
+                <label>Summary {sIndex + 1}: </label>
+                <input
+                  type="text"
+                  required
+                  className="form-control"
+                  value={summary.summary}
+                  onChange={(e) => this.onChangeSummary(e, sIndex)}
+                />
+              </div>
+              <div className="form-group">
+                <label>
+                  Hearing Date {sIndex + 1}:{" "}
+                  <DatePicker
+                    selected={summary.hearingDate}
+                    onChange={(date) => this.onChangeHearingDate(date, sIndex)}
+                  />
+                </label>
+              </div>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={this.addSummary}
+          >
+            Add Summary
+          </button>
           <div className="form-group" style={{ margin: "4px 0 0 0" }}>
             <input type="submit" className="btn" value="Update Case" />
           </div>

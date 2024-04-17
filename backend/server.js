@@ -12,7 +12,7 @@ app.use(express.json());
 // view engine setup
 const port = process.env.PORT || 5000;
 
-
+// const ATLAS_URI = process.env.ATLAS_URI;
 const MONGODB_URL = "mongodb://127.0.0.1:27017/judiciary-information-system";
 mongoose
   .connect(MONGODB_URL, {

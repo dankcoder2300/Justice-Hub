@@ -50,8 +50,6 @@ class Login extends Component {
       password: this.state.password,
       type: this.state.type,
     };
-    // console.log(user);
-    // fetch('http://localhost:5000/users/login', user)
     await fetch("http://localhost:5000/users/login", {
       method: "POST",
       body: JSON.stringify(user),
@@ -65,20 +63,10 @@ class Login extends Component {
       .then((data) => {
         if (data.success) {
           window.location = "/caseList";
-
           alert("Login successful");
-
           console.log(data);
-
-          // if(user.type === 'registrar'){
-
-          // }
-          // else{
-
-          // }
           localStorage.setItem("type", user.type);
           localStorage.setItem("username", "exists");
-          // localStorage.setItem("Type" , )
         } else {
           alert("Invalid credentials");
         }

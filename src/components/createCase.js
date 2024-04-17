@@ -23,7 +23,7 @@ export default class CreateCase extends Component {
       start_date: new Date(),
       end_date: new Date(),
       status: "",
-      summary: "",
+      summaries: [],
     };
 
     this.onChangeDefName = this.onChangeDefName.bind(this);
@@ -40,6 +40,8 @@ export default class CreateCase extends Component {
     this.onChangeEndDate = this.onChangeEndDate.bind(this);
     this.onChangeStatus = this.onChangeStatus.bind(this);
     this.onChangeSummary = this.onChangeSummary.bind(this);
+    this.onChangeHearingDate = this.onChangeHearingDate.bind(this);
+    this.addSummary = this.addSummary.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
   }
 
@@ -117,10 +119,22 @@ export default class CreateCase extends Component {
     });
   }
 
-  onChangeSummary(e) {
-    this.setState({
-      summary: e.target.value,
-    });
+  onChangeSummary(e, sIndex) {
+    const { summaries } = this.state;
+    summaries[sIndex].summary = e.target.value;
+    this.setState({ summaries });
+  }
+
+  onChangeHearingDate(date, sIndex) {
+    const { summaries } = this.state;
+    summaries[sIndex].hearingDate = date;
+    this.setState({ summaries });
+  }
+
+  addSummary() {
+    const { summaries } = this.state;
+    summaries.push({ summary: "", hearingDate: new Date() });
+    this.setState({ summaries });
   }
 
   onSubmit(e) {
@@ -140,15 +154,25 @@ export default class CreateCase extends Component {
       start_date: this.state.start_date,
       end_date: this.state.end_date,
       status: this.state.status,
-      summary: this.state.summary,
+      summaries: this.state.summaries,
     };
 
     console.log(exercise);
 
     axios
       .post("http://localhost:5000/exercises/add", exercise)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+      .then((res) => {
+        console.log(res.data);
+        alert("Case added successfully");
+      })
+      .catch((err) => {
+        if (err.response && err.response.status === 403) {
+            alert("Only a registrar can create a case.");
+        } else {
+            alert("An error occurred while adding the case.");
+        }
+    });
+
 
     this.setState({
       def_name: "",
@@ -164,7 +188,7 @@ export default class CreateCase extends Component {
       start_date: new Date(),
       end_date: null,
       status: "",
-      summary: "",
+      summaries: [{ summary: "", hearings: [{ date: new Date() }] }],
     });
 
     // window.location = '/create';
@@ -175,7 +199,7 @@ export default class CreateCase extends Component {
     return (
       <div className="update_form">
         <h3>Enter The Case Details</h3>
-        <form onSubmit={this.onSubmit}>
+        <form onSubmit={this.onSubmit} style={{ width: "45%" }}>
           <div className="form-group">
             <label>Defandant's name: </label>
             <input
@@ -195,7 +219,6 @@ export default class CreateCase extends Component {
               onChange={this.onChangeDefAddr}
             />
           </div>
-
           <div className="form-group">
             <label>Crime type: </label>
             <input
@@ -293,15 +316,36 @@ export default class CreateCase extends Component {
               onChange={this.onChangeStatus}
             />
           </div>
-          <div className="form-group">
-            <label>Summary: </label>
-            <input
-              type="text"
-              className="form-control"
-              value={this.state.summary}
-              onChange={this.onChangeSummary}
-            />
-          </div>
+          {this.state.summaries.map((summary, sIndex) => (
+            <div key={sIndex}>
+              <div className="form-group">
+                <label>Summary {sIndex + 1}: </label>
+                <input
+                  type="text"
+                  required
+                  className="form-control"
+                  value={summary.summary}
+                  onChange={(e) => this.onChangeSummary(e, sIndex)}
+                />
+              </div>
+              <div className="form-group">
+                <label>
+                  Hearing Date {sIndex + 1}:{" "}
+                  <DatePicker
+                    selected={summary.hearingDate}
+                    onChange={(date) => this.onChangeHearingDate(date, sIndex)}
+                  />
+                </label>
+              </div>
+            </div>
+          ))}
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={this.addSummary}
+          >
+            Add Summary
+          </button>
           <div className="form-group">
             <input type="submit" className="btn" value="Create Case" />
             {this.case_created && (
