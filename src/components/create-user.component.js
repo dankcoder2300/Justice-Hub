@@ -43,10 +43,14 @@ export default class CreateUsers extends Component {
 
     console.log(user);
 
-    axios.post("http://localhost:5000/users/add", user).then((res) => {
-      console.log(res.data);
-      alert("Sucessful");
-    });
+    axios.post("http://localhost:5000/users/add", user)
+      .then((res) => {
+        console.log(res.data);
+        alert("User added successfully");
+      })
+      .catch((error) => {
+        alert(error.response.data.error);
+      });
 
     this.setState({
       username: "",
@@ -54,6 +58,7 @@ export default class CreateUsers extends Component {
       type: "",
     });
   }
+
   render() {
     return (
       <div className="container">
@@ -63,13 +68,13 @@ export default class CreateUsers extends Component {
             <form className="login" onSubmit={this.onSubmit}>
               <div className="login__field">
                 <select
-                  class="form-select"
+                  className="form-select"
                   aria-label="Default select example"
                   onChange={this.onChangeType}
                   value={this.state.type}
                   required
                 >
-                  <option selected>Open this select menu</option>
+                  <option value="">Select Type</option>
                   <option value="Lawyer">Lawyer</option>
                   <option value="Registrar">Registrar</option>
                   <option value="Judge">Judge</option>
@@ -100,7 +105,7 @@ export default class CreateUsers extends Component {
                 type="submit"
                 value="Create User"
               >
-                <span className="button__text">Log In Now</span>
+                <span className="button__text">Register User</span>
                 <i className="button__icon fas fa-chevron-right"></i>
               </button>
             </form>
@@ -113,42 +118,6 @@ export default class CreateUsers extends Component {
           </div>
         </div>
       </div>
-      // <div id="regform">
-      // <h3>Register User</h3>
-      // <form onSubmit={this.onSubmit}>
-      // <div className="form-group">
-      //         <select className="form-control"
-      //             onChange={this.onChangeType}
-      //             value={this.state.type}
-      //             required >
-      //             <option></option>
-      //             <option>Registrar</option>
-      //         </select>
-      //     </div>
-      //     <div className="form-group">
-      //         <label>Username :</label>
-      //         <input type="text"
-      //                 required
-      //                 className="form-control"
-      //                 value={this.state.username}
-      //                 onChange={this.onChangeUsername} />
-      //     </div>
-      //     <div className="form-group">
-      //         <label>Password :</label>
-      //         <input type="text"
-      //                 required
-      //                 className="form-control"
-      //                 value={this.state.password}
-      //                 onChange={this.onChangePassword} />
-      //     </div>
-      //     <div className="form-group">
-      //             <input
-      //                 type="submit"
-      //                 className="btn"
-      //                 value="Create User" />
-      //         </div>
-      // </form>
-      // </div>
     );
   }
 }

@@ -18,8 +18,21 @@ const Exercise = (props) => (
     <td>{props.exercise.start_date}</td>
     <td>{props.exercise.end_date}</td>
     <td>{props.exercise.status}</td>
-    <td>{props.exercise.summary}</td>
-    {/* <td>{props.exercise.date.substring(0,10)}</td> */}
+    <td>
+        {props.exercise.summaries &&
+          props.exercise.summaries.map((summary, sIndex) => (
+            <div key={sIndex}>
+              <div>
+                <b>Hearing Date:</b>{" "}
+                {new Date(summary.hearingDate).toLocaleDateString()}
+              </div>
+              <div>
+                <b>Summary:</b> {summary.summary}
+              </div>
+              <hr/>
+            </div>
+          ))}
+      </td>
     <td id="update">
       <Link to={"/update/" + props.exercise._id}>update</Link>
     </td>
@@ -29,11 +42,6 @@ const Exercise = (props) => (
 export default class ExercisesList extends Component {
   constructor(props) {
     super(props);
-
-    // this.deleteExercise = this.deleteExercise.bind(this);
-
-    // this.exerciseList = this.exerciseList.bind(this);
-
     this.state = { exercises: [] };
   }
 
@@ -68,10 +76,10 @@ export default class ExercisesList extends Component {
         <table class="table table-striped">
           <table class="table">
             <thead>
-              <tr>
+            <tr>
                 <th>CIN</th>
-                <th>Defandant Name</th>
-                <th>Defandant Addr</th>
+                <th>Defendant Name</th>
+                <th>Defendant Addr</th>
                 <th>Crime type</th>
                 <th>Crime date</th>
                 <th>Crime location</th>
@@ -83,7 +91,7 @@ export default class ExercisesList extends Component {
                 <th>Start date</th>
                 <th>End date</th>
                 <th>Status</th>
-                <th>Summary</th>
+                <th>Adjournment</th>
               </tr>
             </thead>
             <tbody>{this.exerciseList()}</tbody>

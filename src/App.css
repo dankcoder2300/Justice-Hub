@@ -269,6 +269,16 @@ li{
   list-style: none;
 }
 
+.table-responsive {
+	overflow-x: auto;
+}
+  
+.table-striped {
+	display: block;
+	width: 100%;
+	overflow-x: auto;
+}
+
 .form-container{
 	/* border: 1px solid red; */
 	width: 100%;

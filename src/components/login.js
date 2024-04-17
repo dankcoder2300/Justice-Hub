@@ -45,37 +45,41 @@ class Login extends Component {
   }
   onSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const user = {
-        username: this.state.username,
-        password: this.state.password,
-        type: this.state.type,
-      };
+    const user = {
+      username: this.state.username,
+      password: this.state.password,
+      type: this.state.type,
+    };
+    await fetch("http://localhost:5000/users/login", {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        if (data.success) {
+          window.location = "/caseList";
+          alert("Login successful");
+          console.log(data);
+          localStorage.setItem("type", user.type);
+          localStorage.setItem("username", "exists");
+        } else {
+          alert("Invalid credentials");
+        }
+      })
+      .catch((err) => console.log(err));
 
-      const resp = await axios.post(`${BACKEND_URL}/users/login`, user, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log(resp)
-      window.location = "/caseList";
-      alert("Login successful");
+    this.setState({
+      username: "",
+      password: "",
+      type: "",
+    });
 
-      localStorage.setItem("type", user.type);
-      localStorage.setItem("username", "exists");
-      // localStorage.setItem("Type" , )
-
-      this.setState({
-        username: "",
-        password: "",
-        type: "",
-      });
-
-      console.log(localStorage.getItem("registrar"));
-    } catch (err) {
-      console.log(err);
-      alert("Something went wrong ! check console");
-    }
+    console.log(localStorage.getItem("registrar"));
   };
   render() {
     return (
