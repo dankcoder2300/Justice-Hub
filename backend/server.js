@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const exercisesRouter = require("./routes/exercises");
 const usersRouter = require("./routes/users");
+const caseRoutes = require('./search/routes/caseRoutes');
+
 const app = express();
 
 app.use(cors());
@@ -29,6 +31,7 @@ app.use("*", (req, res, next) => {
 });
 app.use("/exercises", exercisesRouter);
 app.use("/users", usersRouter);
+app.use('/cases', caseRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port : ${port}`);
