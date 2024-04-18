@@ -20,8 +20,13 @@ const CalenderComponent = ({ updateNextHearingDate }) => {
         setLoading(true);
         const { data } = await customFetch.get(`/exercises/emptyslots`);
         setLoading(false);
+        let first = true;
         for (let key in data) {
-          if (data[key].length > 0) updateNextHearingDate(`Slot ${data[key][0]} on ${moment(key).format("Do MMMM")}`);
+          if (data[key].length > 0 && first)
+            updateNextHearingDate(
+              `Slot ${data[key][0]} on ${moment(key).format("Do MMMM")}`
+            );
+          first = false;
         }
         setEmptySlots(data);
       } catch (e) {

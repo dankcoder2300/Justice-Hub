@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import { AiOutlineEye } from "react-icons/ai";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const Exercise = (props) => {
