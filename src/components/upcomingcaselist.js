@@ -27,7 +27,7 @@ const Exercise = (props) => (
   </tr>
 );
 
-export default class ExercisesList extends Component {
+export default class UpcomingCasesList extends Component {
   constructor(props) {
     super(props);
 
@@ -37,12 +37,14 @@ export default class ExercisesList extends Component {
 
     this.state = { exercises: [] };
   }
-
+  setExercises = async (exerciseList) => {
+    await this.setState({exercises: exerciseList});
+  }
   componentDidMount() {
     axios
-      .get("http://localhost:5000/exercises")
-      .then((response) => {
-        this.setState({ exercises: response.data });
+      .get("http://localhost:5000/exercises/cases/upcomingCases")
+      .then(response => {
+        this.setExercises(response.data);
       })
       .catch((err) => console.log(err));
   }
@@ -50,6 +52,7 @@ export default class ExercisesList extends Component {
   exerciseList = () => {
     const registrar = localStorage.getItem("registrar");
     console.log(registrar);
+    // console.log(this.)
     return this.state.exercises.map((currentExercise, id) => {
       return (
         <Exercise
@@ -66,8 +69,8 @@ export default class ExercisesList extends Component {
     return (
       <div style={{ margin: "1em 0.5em" }}>
         <h3>Upcoming Cases</h3>
-        <table class="table table-striped">
-          <table class="table">
+        <table class="table" style={{ marginBottom: "2em" }}>
+          {/* <table className="table"> */}
             <thead>
               <tr>
                 <th>CIN</th>
@@ -85,8 +88,9 @@ export default class ExercisesList extends Component {
               </tr>
             </thead>
             <tbody>{this.exerciseList()}</tbody>
-          </table>
+          {/* </table> */}
         </table>
+        {this.state.exercises.length === 0 && <div style={{textAlign:"center"}}>No upcoming cases</div>}
       </div>
     );
   }
