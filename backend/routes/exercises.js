@@ -7,7 +7,7 @@ router.route("/").get((req, res) => {
     .catch((err) => res.status(400).json("Error " + err));
 });
 
-router.route('/add').post((req, res) => {
+router.route("/add").post((req, res) => {
   const {
     def_name,
     def_addr,
@@ -42,19 +42,20 @@ router.route('/add').post((req, res) => {
     end_date,
     status,
     summaries,
-    next_hearing: { date: next_hearing, slot: hearing_slot }
+    next_hearing: { date: next_hearing, slot: hearing_slot },
   });
 
   console.log("this is new exercise\n", newExercise);
 
-  newExercise.save()
-    .then(() => res.status(200).json('Exercise added!'))
-    .catch(err => res.json('Error ' + err));
+  newExercise
+    .save()
+    .then(() => res.status(200).json("Exercise added!"))
+    .catch((err) => res.json("Error " + err));
 });
 
 router.route("/emptyslots").get(async (req, res) => {
   try {
-    console.log('fffffff');
+    console.log("fffffff");
     const startDate = new Date();
     const endDate = new Date();
     endDate.setDate(startDate.getDate() + 30);
@@ -78,34 +79,53 @@ router.route("/emptyslots").get(async (req, res) => {
   }
 });
 
-router.route('/:id').get((req, res) => {
-  Exercise.findById(req.params.id)
-    .then(exercise => res.status(200).json(exercise))
-    .catch(err => res.json('Error ' + err));
+router.route("/search").post(async (req, res) => {
+  try{
+    const { starting_date, ending_date, hearing_date, cin } = req.body;
+    console.log(req.body);
+    const query = {};
+    if (starting_date) query.start_date = { $gte: new Date(starting_date) };
+    if (ending_date) query.end_date = { $lte: new Date(ending_date) };
+    if (hearing_date) query["next_hearing.date"] = new Date(hearing_date);
+    if (cin) query.cin = cin;
+    console.log(query);
+    const exercises = await Exercise.find(query);
+    res.status(200).json(exercises);
+  } catch(e){
+    console.log(e);
+  }
 });
 
-router.route('/:id').delete((req, res) => {
+
+router.route("/:id").get((req, res) => {
+  Exercise.findById(req.params.id)
+    .then((exercise) => res.status(200).json(exercise))
+    .catch((err) => res.json("Error " + err));
+});
+
+router.route("/:id").delete((req, res) => {
   Exercise.findByIdAndDelete(req.params.id)
     .then(() => res.status(200).json("Exercise deleted"))
-    .catch(err => res.json('Error ' + err));
+    .catch((err) => res.json("Error " + err));
 });
 
-router.route('/update/:id').post(async (req, res) => {
-  const resp = await Exercise.findByIdAndUpdate(req.params.id, req.body, { returnDocument: 'after' });
+router.route("/update/:id").post(async (req, res) => {
+  const resp = await Exercise.findByIdAndUpdate(req.params.id, req.body, {
+    returnDocument: "after",
+  });
   console.log(resp);
-  res.status(200).json('Updated')
+  res.status(200).json("Updated");
   //   exercise.save()
   //       .then(() => )
   //       .catch(err => res.status(400).json('Error ' + err));
   // .catch(err => res.status(400).json('Error ' + err));
-
 });
 
 router.route("/cases/upcomingCases").get(async (req, res) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   Exercise.find({ start_date: { $gte: today } })
-    .then(exercise =>  res.status(200).json(exercise))
+    .then((exercise) => res.status(200).json(exercise))
     .catch((err) => res.json("Error " + err));
 });
 
@@ -113,10 +133,7 @@ router.route("/cases/pendingCases").get((req, res) => {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   Exercise.find({
-    $and:[
-      { start_date: { $lt: today } },
-      { end_date: { $gte: today } }
-    ]
+    $and: [{ start_date: { $lt: today } }, { end_date: { $gte: today } }],
   })
     .then((exercise) => res.status(200).json(exercise))
     .catch((err) => res.json("Error " + err));
@@ -129,6 +146,5 @@ router.route("/cases/resolvedCases").get((req, res) => {
     .then((exercise) => res.status(200).json(exercise))
     .catch((err) => res.json("Error " + err));
 });
-
 
 module.exports = router;

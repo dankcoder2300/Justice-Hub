@@ -5,11 +5,11 @@ import moment from "moment";
 import { AiOutlineEye } from "react-icons/ai";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Exercise = (props) => {
+export const Exercise = (props) => {
   console.log("Summaries:", props.exercise.summaries);
   return (
     <tr>
-      <td>{props.id}</td>
+      <td>{props.exercise.cin}</td>
       <td>{props.exercise.def_name}</td>
       {/* <td>{props.exercise.def_addr}</td> */}
       <td>{props.exercise.crime_type}</td>

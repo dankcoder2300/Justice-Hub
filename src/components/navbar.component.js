@@ -98,6 +98,13 @@ export default class Navbar extends Component {
                       </li>
                     </ul>
                   </li>
+                  <li className="nav-item dropdown">
+                    {type === "Registrar" && (
+                      <Link className="nav-link" to="/searchcase">
+                        Search past cases
+                      </Link>
+                    )}
+                  </li>
                 </>
               )}
               {user !== "exists" && (
@@ -124,7 +131,7 @@ export default class Navbar extends Component {
                   gap: "2em",
                 }}
               >
-                <form className="form-inline my-2 my-lg-0">
+                {/* <form className="form-inline my-2 my-lg-0">
                   <div style={{ display: "flex" }}>
                     <div style={{ marginRight: "5%" }}>
                       <input
@@ -143,7 +150,7 @@ export default class Navbar extends Component {
                       </button>
                     </div>
                   </div>
-                </form>
+                </form> */}
                 <Link onClick={this.logout} className="btn ">
                   Logout
                 </Link>

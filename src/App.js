@@ -10,6 +10,7 @@ import PastCase from "./components/pastcaselist";
 import PendingCase from "./components/pendingcase";
 import UpcomingCase from "./components/upcomingcaselist";
 import ViewCase from "./pages/viewcase/ViewCase";
+import SearchPage from "./pages/searchPage";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/pastCase" component={PastCase} />
         <Route path="/pendingCase" component={PendingCase} />
         <Route path="/upcomingCase" component={UpcomingCase} />
+        <Route path="/searchcase" component={SearchPage} />
       </div>
     </Router>
   );

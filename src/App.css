@@ -332,3 +332,9 @@ li{
 		display: block;
 	}
 }
+
+.date-picker{
+	width: 100px;
+	z-index: 999999;
+	border-radius: 5px;
+}

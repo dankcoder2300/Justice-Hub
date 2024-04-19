@@ -2,7 +2,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 const exerciseSchema = new Schema({
-
     def_name:       {type: String , required: true},
     def_addr:       {type: String , required: true},
     crime_type:     {type: String , required: true},
