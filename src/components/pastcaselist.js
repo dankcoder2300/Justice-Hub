@@ -46,7 +46,7 @@ const Exercise = (props) => {
   );
 };
 
-export default class ExercisesList extends Component {
+export default class PastCasesList extends Component {
   constructor(props) {
     super(props);
     this.state = { exercises: [] };
@@ -54,7 +54,7 @@ export default class ExercisesList extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/exercises")
+      .get("http://localhost:5000/exercises/cases/resolvedCases")
       .then((response) => {
         console.log(response.data);
         this.setState({ exercises: response.data });
@@ -77,7 +77,7 @@ export default class ExercisesList extends Component {
   render() {
     return (
       <div style={{ margin: "1em 0.5em" }}>
-        <h2>Cases</h2>
+        <h2>Resolved Cases</h2>
         <table class="table" style={{ marginBottom: "2em" }}>
           <thead>
             <tr>
@@ -103,6 +103,7 @@ export default class ExercisesList extends Component {
           </thead>
           <tbody>{this.exerciseList()}</tbody>
         </table>
+        {this.state.exercises.length === 0 && <div style={{textAlign:"center"}}>No past cases</div>}
       </div>
     );
   }

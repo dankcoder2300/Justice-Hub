@@ -28,7 +28,7 @@ const Exercise = (props) => (
   </tr>
 );
 
-export default class ExercisesList extends Component {
+export default class pendingCasesList extends Component {
   constructor(props) {
     super(props);
     this.state = { exercises: [] };
@@ -36,8 +36,9 @@ export default class ExercisesList extends Component {
 
   componentDidMount() {
     axios
-      .get("http://localhost:5000/exercises")
+      .get("http://localhost:5000/exercises/cases/pendingCases")
       .then((response) => {
+        console.log(response.data);
         this.setState({ exercises: response.data });
       })
       .catch((err) => console.log(err));
@@ -62,8 +63,7 @@ export default class ExercisesList extends Component {
     return (
       <div style={{ margin: "1em 0.5em" }}>
         <h3>Currently pending Cases</h3>
-        <table class="table table-striped">
-          <table class="table">
+        <table class="table" style={{ marginBottom: "2em" }}>
             <thead>
               <tr>
                 <th>CIN</th>
@@ -87,8 +87,8 @@ export default class ExercisesList extends Component {
               </tr>
             </thead>
             <tbody>{this.exerciseList()}</tbody>
-          </table>
         </table>
+        {this.state.exercises.length === 0 && <div style={{textAlign:"center"}}>No pending cases</div>}
       </div>
     );
   }
