@@ -268,6 +268,7 @@ export default class CreateCase extends Component {
                 <DatePicker
                   selected={this.state.crime_date}
                   onChange={this.onChangeCrimeDate}
+                  maxDate={new Date()}
                 />
               </div>
               <div className="form-group">
@@ -294,6 +295,7 @@ export default class CreateCase extends Component {
                 <DatePicker
                   selected={this.state.arrest_date}
                   onChange={this.onChangeArrestDate}
+                  minDate={this.state.crime_date}
                 />
               </div>
               <div className="form-group">
@@ -328,6 +330,7 @@ export default class CreateCase extends Component {
                 <DatePicker
                   selected={this.state.start_date}
                   onChange={this.onChangeStartDate}
+                  minDate={this.state.crime_date}
                 />
               </div>
               <div className="form-group">
@@ -335,6 +338,7 @@ export default class CreateCase extends Component {
                 <DatePicker
                   selected={this.state.end_date}
                   onChange={this.onChangeEndDate}
+                  minDate={this.state.start_date}
                 />
               </div>
               <div className="form-group">
@@ -351,6 +355,7 @@ export default class CreateCase extends Component {
                 <DatePicker
                   selected={this.state.next_hearing}
                   onChange={this.onChangeNextHearing}
+                  minDate={this.state.start_date}
                 />
 
                 {this.state.next_nearest_date && (

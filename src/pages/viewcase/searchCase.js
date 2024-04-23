@@ -25,6 +25,7 @@ function CaseList() {
         setSelectedOption(option);
     };
 
+
     return (
         <div>
             <h2>Options:</h2>

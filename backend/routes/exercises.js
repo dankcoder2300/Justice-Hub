@@ -7,7 +7,7 @@ router.route("/").get((req, res) => {
     .catch((err) => res.status(400).json("Error " + err));
 });
 
-router.route("/add").post((req, res) => {
+router.route("/add").post(async (req, res) => {
   const {
     def_name,
     def_addr,
@@ -27,6 +27,9 @@ router.route("/add").post((req, res) => {
     hearing_slot,
   } = req.body;
 
+  const len = await Exercise.find().countDocuments();
+
+
   const newExercise = new Exercise({
     def_name,
     def_addr,
@@ -42,6 +45,7 @@ router.route("/add").post((req, res) => {
     end_date,
     status,
     summaries,
+    cin: len+1,
     next_hearing: { date: next_hearing, slot: hearing_slot },
   });
 
@@ -81,12 +85,13 @@ router.route("/emptyslots").get(async (req, res) => {
 
 router.route("/search").post(async (req, res) => {
   try{
-    const { starting_date, ending_date, hearing_date, cin } = req.body;
+    const { starting_date, ending_date, hearing_date, cin, keyword } = req.body;
     console.log(req.body);
     const query = {};
-    if (starting_date) query.start_date = { $gte: new Date(starting_date) };
+    if (starting_date) query.end_date = { $gte: new Date(starting_date) };
     if (ending_date) query.end_date = { $lte: new Date(ending_date) };
     if (hearing_date) query["next_hearing.date"] = new Date(hearing_date);
+    if (keyword) query["summaries.summary"] = { $regex: keyword, $options: 'i' };
     if (cin) query.cin = cin;
     console.log(query);
     const exercises = await Exercise.find(query);

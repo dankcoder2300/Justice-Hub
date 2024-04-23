@@ -17,6 +17,7 @@ const defaultFielters = {
   ending_date: "",
   hearing_date: "",
   cin: "",
+  keyword: "",
 };
 
 const SearchPage = () => {
@@ -85,6 +86,18 @@ const SearchPage = () => {
             name="cin"
             value={filterOptions.cin}
             onChange={(e) => updateField(e.target.value, "cin")}
+            fullWidth
+            type="text"
+            size="small"
+          />
+        </Box>
+        <Box>
+          <TextField
+            label="Keyword"
+            variant="outlined"
+            name="keyword"
+            value={filterOptions.keyword}
+            onChange={(e) => updateField(e.target.value, "keyword")}
             fullWidth
             type="text"
             size="small"

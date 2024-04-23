@@ -15,6 +15,7 @@ const exerciseSchema = new Schema({
     start_date:     {type: Date , required: true},
     end_date:       {type: Date, required: true},
     status:         {type: String , required: true},
+    cin:            {type: Number, required: true},
     summaries: [{
         summary: { type: String, required: true },
         hearingDate: { type: Date, required: true }
@@ -26,5 +27,4 @@ const exerciseSchema = new Schema({
 });
 
 const Exercise = mongoose.model('Exercise', exerciseSchema);
-
 module.exports = Exercise;

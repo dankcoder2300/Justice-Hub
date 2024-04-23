@@ -99,11 +99,9 @@ export default class Navbar extends Component {
                     </ul>
                   </li>
                   <li className="nav-item dropdown">
-                    {type === "Registrar" && (
-                      <Link className="nav-link" to="/searchcase">
-                        Search past cases
-                      </Link>
-                    )}
+                    <Link className="nav-link" to="/searchcase">
+                      Search past cases
+                    </Link>
                   </li>
                 </>
               )}

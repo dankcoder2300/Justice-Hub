@@ -9,7 +9,7 @@ class Login extends Component {
 
     this.state = {
       username: "",
-      type: "",
+      type: "Lawyer",
       password: "",
     };
 

@@ -21,6 +21,7 @@ import moment from "moment";
 
 const ViewCase = () => {
   const { id } = useParams();
+  const type = localStorage.getItem("type");
   const [caseData, setCaseData] = useState({});
   console.log(id);
   useEffect(() => {
@@ -167,20 +168,22 @@ const ViewCase = () => {
                 </div>
               ))}
           </Grid>
-          <Box sx={{ width: "100%", display: "flex" }}>
-            <Link
-              style={{
-                color: "white",
-                backgroundColor: "#0000FF",
-                padding: "0.25em 1em",
-                borderRadius: "5px",
-                margin: "1em auto",
-              }}
-              to={`/update/${id}`}
-            >
-              Edit
-            </Link>
-          </Box>
+          {type === "Registrar" && (
+            <Box sx={{ width: "100%", display: "flex" }}>
+              <Link
+                style={{
+                  color: "white",
+                  backgroundColor: "#0000FF",
+                  padding: "0.25em 1em",
+                  borderRadius: "5px",
+                  margin: "1em auto",
+                }}
+                to={`/update/${id}`}
+              >
+                Edit
+              </Link>
+            </Box>
+          )}
         </Box>
       </Box>
     </Container>
